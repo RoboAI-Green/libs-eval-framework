@@ -1,0 +1,18 @@
+field,required,description
+dataset_id,yes,Stable dataset and release identifier.
+source_file,yes,Source file path or public archive identifier.
+source_file_sha256,yes,SHA-256 of the immutable source file.
+immutable_row_id,yes,Stable row identifier independent of dataframe ordering.
+source_row_index,yes,Original row or spectrum index within the source file.
+physical_target_id,yes,Identifier of the physical specimen or target.
+preparation_batch_id,when available,Preparation batch or sister-sample group.
+provenance_family_id,when available,Prespecified physical-provenance family used for Ind assignment.
+session_id,when available,Measurement session or continuous acquisition window.
+device_id,when available,Physical instrument identifier.
+class_or_analyte,yes,Classification label or modeled analyte field.
+split_name,yes,Named split design or cohort.
+split_role,yes,Training selection-validation or final-evaluation role.
+split_version,yes,Immutable split release version.
+selection_or_final,yes,Whether the record participates in selection or final evaluation.
+locked_before_modeling,yes,Whether membership was frozen before model development.
+notes,no,Study-specific information needed to interpret the boundary.

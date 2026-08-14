@@ -1,0 +1,66 @@
+{
+  "all_training_groups_represented_in_shot_validation_pass": true,
+  "balanced_replication_manifest_pass": true,
+  "branch_a": {
+    "all_training_groups_represented_in_shot_validation_pass": true,
+    "branch": "A",
+    "preprocessing_isolation_pass": true,
+    "random_shot_rule_pass": true,
+    "row_isolation_pass": true,
+    "shot_validation_rows": 21720,
+    "split_group_isolation_from_disjoint_validation_and_test_pass": true,
+    "training_blocks": 10860,
+    "training_materials": 1059,
+    "training_row_ids_sha256": "454dff956a27fa4c8ee290827700360495e483197835893c3b39c6fe1a6d331c",
+    "training_rows": 249780,
+    "training_split_groups": 1004
+  },
+  "branch_a_row_isolation_pass": true,
+  "branch_a_rows": 505250,
+  "branch_b": {
+    "all_training_groups_represented_in_shot_validation_pass": true,
+    "branch": "B",
+    "preprocessing_isolation_pass": true,
+    "random_shot_rule_pass": true,
+    "row_isolation_pass": true,
+    "shot_validation_rows": 18600,
+    "split_group_isolation_from_disjoint_validation_and_test_pass": true,
+    "training_blocks": 9300,
+    "training_materials": 907,
+    "training_row_ids_sha256": "d5178f281ff7a995b81f1f45777ad3731ccaa61111a1a7e88c3af556cedffb53",
+    "training_rows": 213900,
+    "training_split_groups": 855
+  },
+  "branch_b_common_identity_checks": {
+    "I_T": {
+      "materials_equal": true,
+      "split_groups_equal": true
+    },
+    "I_V": {
+      "materials_equal": true,
+      "split_groups_equal": true
+    },
+    "X_T": {
+      "materials_equal": true,
+      "split_groups_equal": true
+    },
+    "X_V": {
+      "materials_equal": true,
+      "split_groups_equal": true
+    }
+  },
+  "branch_b_common_material_equality_pass": true,
+  "branch_b_row_isolation_pass": true,
+  "branch_b_rows": 410375,
+  "determinism_fingerprint_sha256": "2cf6797091257f921d58e59b5fba02d77ed4e907285fe7959df9577b28773ab0",
+  "hdf5_sha256": "b0e4a49a384946b4c213e7edf36b41e59a6162ee640ff0d5cf6577cb270242da",
+  "package_manifest_sha256": "73335492dbe4b7db3ff66fbac2666feacb3d7efec9323d64b138188f500297d6",
+  "package_manifest_verified_before_generation": true,
+  "preprocessing_isolation_pass": true,
+  "protocol_version": "3.0.0",
+  "random_shot_rule_pass": true,
+  "row_builder_sha256": "7c0034c3e576393579b9a3449f5d46255a15a2a513ac49092c0d92f4bc41a92c",
+  "row_manifest_determinism_pass": true,
+  "row_manifest_generation_pass": true,
+  "row_stage_runner_sha256": "7c0a2867a94443da4837d32c0416b2a2e0c094838c2b6472b91bc8c1825730b8"
+}

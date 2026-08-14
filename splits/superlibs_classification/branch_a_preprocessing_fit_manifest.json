@@ -1,0 +1,27 @@
+{
+  "branch": "A",
+  "centring_rows": "training_eligible only",
+  "classes": [
+    "ANDESITE",
+    "BASALT",
+    "BASALTICANDESITE",
+    "BASALTICTRACHYANDESITE",
+    "DACITE",
+    "FOIDITE",
+    "RHYOLITE",
+    "TRACHYANDESITE"
+  ],
+  "energies_mj": [
+    2.4000000953674316,
+    4.0
+  ],
+  "pca_rows": "selected only from training_eligible rows",
+  "preprocessing_fit_row_count": 249780,
+  "preprocessing_fit_row_ids_sha256": "454dff956a27fa4c8ee290827700360495e483197835893c3b39c6fe1a6d331c",
+  "protocol_sha256": "4c5adf0c30b2377b99f3b7909d3a4afb224435b5b0ad0e48ae5fd3ec135f80db",
+  "protocol_version": "3.0.0",
+  "random_shot_validation_rows_excluded": true,
+  "row_manifest": "branch_a_row_manifest.csv.gz",
+  "row_manifest_sha256": "79b88380e66c6af679807cb3a500944d0367afb76b0cefa2abc623a4f0ac088d",
+  "scaling_rows": "training_eligible only"
+}

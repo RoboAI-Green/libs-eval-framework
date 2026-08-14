@@ -1,0 +1,23 @@
+{
+  "branch": "B",
+  "centring_rows": "training_eligible only",
+  "classes": [
+    "BASALT",
+    "BASALTICANDESITE",
+    "RHYOLITE",
+    "TRACHYANDESITE"
+  ],
+  "energies_mj": [
+    2.4000000953674316,
+    4.0
+  ],
+  "pca_rows": "selected only from training_eligible rows",
+  "preprocessing_fit_row_count": 213900,
+  "preprocessing_fit_row_ids_sha256": "d5178f281ff7a995b81f1f45777ad3731ccaa61111a1a7e88c3af556cedffb53",
+  "protocol_sha256": "4c5adf0c30b2377b99f3b7909d3a4afb224435b5b0ad0e48ae5fd3ec135f80db",
+  "protocol_version": "3.0.0",
+  "random_shot_validation_rows_excluded": true,
+  "row_manifest": "branch_b_row_manifest.csv.gz",
+  "row_manifest_sha256": "a62742aabeb1c9aca72fbf452efac3ca503fe67b9000e0602a3df70639037c5e",
+  "scaling_rows": "training_eligible only"
+}

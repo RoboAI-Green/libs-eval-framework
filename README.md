@@ -1,6 +1,6 @@
-# Evaluation-dependent performance claims in machine-learning LIBS
+# Evaluation-Dependent Performance Claims in Machine-Learning LIBS: A Reporting Framework
 
-This repository accompanies the manuscript *Evaluation-Dependent Performance Claims in Machine-Learning LIBS: A Framework for Classification, Quantification, and Out-of-Distribution Evaluation* by Toni Aaltonen and Pekka Suominen.
+This repository accompanies the manuscript *Evaluation-Dependent Performance Claims in Machine-Learning LIBS: A Reporting Framework* by Toni Aaltonen and Pekka Suominen.
 
 It provides a reporting framework and the released split artifacts for three LIBS case studies:
 
@@ -8,7 +8,7 @@ It provides a reporting framework and the released split artifacts for three LIB
 2. NASA SuperLIBS quantification; and
 3. NASA SuperLIBS lithology classification.
 
-The repository contains split memberships and supporting metadata, not raw spectra, trained models, checkpoints, predictions, or the complete experiment code.
+The repository contains split memberships and supporting metadata, not raw spectra, trained models, checkpoints, predictions, or the complete experiment code. Its reproducibility scope is the evaluation framework and the released partition artifacts used to define the reported evaluation populations.
 
 ## Why the framework is needed
 
@@ -21,7 +21,7 @@ The framework reports two complementary descriptions:
 - an **Evaluation Code** for physical independence, instrument/session separation, and evaluation access; and
 - a **Domain-Shift Matrix (DSM)** for the specific chemical and acquisition relations between development and evaluation data.
 
-These components are not a scalar quality score or universal difficulty ranking.
+These components are not a scalar quality score or universal difficulty ranking. The proposal is a LIBS-specific reporting and standardization layer over established validation principles, not a new validation algorithm.
 
 ## Evaluation Code
 
@@ -31,14 +31,16 @@ Assign the three axes independently to selection validation and final evaluation
 
 | Code | Evaluation boundary |
 |---|---|
-| `Ind-0` | Evaluation spectra come from physical targets represented during fitting. |
-| `Ind-1` | Physical targets are disjoint, but a documented parent material, preparation batch, or provenance family may occur on both sides. |
-| `Ind-2` | Physical targets and preparation batches are disjoint, but a broader documented provenance family may occur on both sides. |
-| `Ind-3` | Physical targets, preparation batches, and prespecified physical-provenance families are disjoint. |
+| `Ind-0` | **Represented target.** Evaluation spectra originate from physical targets represented during fitting. The split unit must state whether separation is between individual spectra/shots or between locations, craters, mapped regions, or other subtarget units. |
+| `Ind-1` | **Target level.** Physical targets are disjoint, but a documented parent material, preparation batch, or provenance family may occur on both sides. |
+| `Ind-2` | **Batch level.** Physical targets and preparation batches are disjoint, but a broader documented provenance family may occur on both sides. |
+| `Ind-3` | **Family level.** Physical targets, preparation batches, and prespecified physical-provenance families are disjoint. |
 
-`Ind` describes physical provenance, not chemical or spectral distance. Chemistry relations belong in the DSM.
+`Ind` describes physical provenance, not chemical or spectral distance. Chemistry relations belong in the DSM. Location-disjoint evaluation remains `Ind-0` when the same physical target is represented during fitting. For mixed evaluation populations, assign the highest `Ind` level satisfied by every evaluation unit and report counts or proportions satisfying any stricter boundary separately.
 
 ### Instrumental and temporal separation (`Inst`)
+
+`Inst` records physical device/session separation. The DSM separately records operating-condition and spectral-response relations; either may shift without the other.
 
 | Code | Evaluation boundary |
 |---|---|
@@ -61,29 +63,37 @@ Report the observed number of final-test queries or submissions.
 
 ## Domain-Shift Matrix
 
-Report every applicable factor separately.
+Report every factor that is applicable to the intended claim separately for the development, selection-validation, and final-evaluation domains. The rows below are core LIBS factor families, not an exhaustive list. Add a named row when another condition defines the intended deployment claim rather than forcing it into an unrelated category.
 
 | Factor | Required description |
 |---|---|
-| `R_matrix` | Prespecified matrix or composition relation based primarily on reference chemistry. Keep chemistry groups distinct from physical-provenance families. |
-| `Δconc` | Per-analyte interpolation, edge coverage, low-end extrapolation, and high-end extrapolation, including ranges and outside-range counts. |
-| `Δopt` | Each varied excitation parameter separately, such as energy, fluence, wavelength, pulse duration, repetition rate, and focus. |
-| `Δdet` | Gate delay and gate width in development, selection validation, and final evaluation, including whether either differs. |
-| `Δsnr` | Development and evaluation signal-quality distributions, with a defined SNR calculation and statistical unit. |
+| `R_matrix` | Prespecified matrix or composition relation based primarily on reference chemistry. Keep chemistry groups distinct from physical-provenance families. Spectral distances may be secondary descriptors only when their representation and statistical unit are stated. |
+| `Delta_conc` | Per-analyte interpolation, edge coverage, low-end extrapolation, and high-end extrapolation, with development/evaluation ranges and outside-range counts and proportions. |
+| `Delta_prep` | Physical state and preparation: form/phase, particle size, binder, compaction or fusion, moisture, surface condition/roughness, and prior ablation or cleaning-shot protocol when relevant. |
+| `Delta_env` | Ambient gas identity/composition and pressure, with temperature or humidity when relevant. Qualitative labels such as ambient, Mars-like, or vacuum should be accompanied by stated conditions when available. |
+| `Delta_opt` | Excitation and optical geometry: energy, fluence, wavelength, pulse duration, repetition rate, focus, stand-off distance, beam incidence, collection geometry, and other varied optical parameters. |
+| `Delta_det` | Detection and spectral response: gate delay/width, wavelength coverage/grid, spectral-axis registration or calibration, resolving power, wavelength-dependent response/efficiency, and any applied correction. |
+| `Delta_snr` | Signal-quality relation using a defined SNR or other stated signal-quality calculation and statistical unit, with distributions or robust summaries rather than an undefined scalar label. |
 
-Do not combine DSM entries into one distance or infer the cause of an error when several shifts co-occur. Other scientifically relevant metadata should still be reported in Methods even when it is not a taxonomy factor.
+Rows that are genuinely not applicable to the claim may be removed from the DSM template. If a factor is applicable but was not measured or not reported, retain it and disclose that status; do not invent an unknown taxonomy code. Do not collapse DSM entries into one distance or infer the cause of an error when several shifts co-occur.
+
+For quantification, reference method and reference-value uncertainty are mandatory companion fields when available. They are not DSM factors because they characterize response-variable provenance and uncertainty rather than a shift in the spectral input distribution.
+
+Instrument and session identity are encoded through `Inst`; the corresponding operating-condition and response relations remain in the DSM.
 
 ## Applying the framework
 
 1. State the intended task, deployment population, metric, prediction unit, and operational use.
 2. Map the hierarchy of spectra, locations, targets, batches, provenance families, sessions, and devices.
 3. Design selection validation separately from final evaluation.
-4. Assign `Ind`, `Inst`, and `Epi` independently to both stages.
-5. Complete the DSM using physically meaningful quantities and independent statistical units.
-6. Fit every learned transformation using training data only, unless a prespecified post-selection refit is explicitly disclosed.
-7. Report the metric, aggregation rule, uncertainty unit, independent-unit count, query count, split version, and a bounded scope statement.
+4. Assign `Ind`, `Inst`, and `Epi` independently to both stages and state the split unit for each stage.
+5. Complete only the applicable DSM rows using physically meaningful quantities and independent statistical units; disclose applicable-but-unavailable metadata explicitly.
+6. Fit every learned transformation using training data only. If the frozen pipeline is refitted on the complete development set before final evaluation, report that refit separately.
+7. Report the aggregation rule, including how many spectra/shots are combined and whether preprocessing precedes or follows aggregation.
+8. Report the uncertainty unit, independent-unit count, final-test query count, versioned split specification, and a bounded scope statement.
+9. For quantification, report reference method and reference-value uncertainty for each domain when available.
 
-The files in [`templates/`](templates/) provide machine-readable starting points for a claim report, DSM, and generic row-level split manifest.
+The files in [`templates/`](templates/) provide a one-page reporting checklist plus machine-readable starting points for a claim report, DSM, and generic row-level split manifest. The claim and DSM are separate so inapplicable DSM rows can be omitted without expanding every claim record.
 
 ## Repository map
 
@@ -92,9 +102,11 @@ The files in [`templates/`](templates/) provide machine-readable starting points
 | `splits/emslibs2019/` | Three fixed EMSLIBS development-set allocations. |
 | `splits/superlibs_quantification/` | Row indices and material metadata for the quantification validation and test cohorts. |
 | `splits/superlibs_classification/` | Branch A and B row manifests, role summaries, preprocessing locks, and the frozen allocation/row protocols. |
-| `templates/` | Framework reporting templates. |
+| `templates/` | One-page reporting checklist and machine-readable framework templates. |
+| `scripts/data/audit_superlibs_10k_earth.py` | Audits the verified NASA SuperLIBS 10K Earth archive, metadata linkage, inventory, and wavelength grids before HDF5 construction. |
+| `scripts/data/build_superlibs_10k_earth_hdf5.py` | Builds the row-addressable SuperLIBS HDF5 representation used by the released manifests from the audited public archive. |
 | `scripts/verify_repository.py` | Checks file hashes and the internal structure of the released manifests. |
-| `SHA256SUMS.txt` | SHA-256 values for the immutable split, protocol, and template artifacts. |
+| `SHA256SUMS.txt` | SHA-256 values for immutable scientific, reconstruction, protocol, and template artifacts. |
 | `CITATION.cff` | Currently available citation metadata. |
 
 ## EMSLIBS 2019 classification splits
@@ -294,13 +306,39 @@ Branch A and Branch B are separately trained complementary experiments. Physical
 
 ## Raw-data dependency
 
-Raw spectra are not redistributed in this repository. The SuperLIBS manifests map to the NASA SuperLIBS 10K Earth HDF5 row order used in the study. That source HDF5 had:
+Raw spectra are not redistributed in this repository. The SuperLIBS manifests map to the NASA SuperLIBS 10K Earth HDF5 row order used in the study. The analyzed products are Earth-atmosphere measurements at approximately 760 Torr and 300 mm stand-off; those conditions are matched across the released SuperLIBS cohorts rather than tested as domain shifts. That source HDF5 had:
 
 - size: 35,104,798,513 bytes;
 - SHA-256: `b0e4a49a384946b4c213e7edf36b41e59a6162ee640ff0d5cf6577cb270242da`;
 - spectral shape: 997,625 × 8,767.
 
 The quantification manifest additionally records its scientific source fingerprint, chemistry fingerprint, and audit hash. Do not apply the row indices to a differently ordered source file merely because its spectra appear similar.
+
+### Reconstructing the SuperLIBS source HDF5
+
+The repository includes the source-data audit and HDF5-construction scripts used to make the public NASA archive explicit and row-addressable before the scientific splits were applied. The expected local NASA layout contains `data_superlibs/10k/earth/`, `document/libs_metadata.xlsx`, and the verification/manifest files from the downloaded bundle. Reconstruction additionally requires NumPy, h5py, and openpyxl.
+
+For the strict full-archive path used before a definitive build, first run the audit with every wavelength grid checked:
+
+```bash
+python3 scripts/data/audit_superlibs_10k_earth.py /path/to/nasa_calibration \
+  --out /path/to/nasa_calibration/audit_superlibs_10k_earth_full_grid \
+  --grid-check all --overwrite
+```
+
+The audit records archive verification, manifest agreement, CSV/XML parsing, target-to-metadata linkage, energy coverage, and wavelength-grid hashes. The HDF5 builder refuses a definitive build if the required audit gates are not satisfied.
+
+Then build the unnormalized HDF5 representation:
+
+```bash
+python3 scripts/data/build_superlibs_10k_earth_hdf5.py /path/to/nasa_calibration \
+  --audit /path/to/nasa_calibration/audit_superlibs_10k_earth_full_grid \
+  --out /path/to/nasa_calibration/superlibs_10k_earth_raw.h5
+```
+
+The builder preserves the audited product ordering, writes spectra without normalization, links each spectrum to product and material indices, stores the actual energy-on-target metadata, and carries the reference chemistry into the HDF5. The released split manifests refer to the row ordering of the study HDF5 pinned above. A newly rebuilt HDF5 must not be assumed byte-identical solely because the same script was used: the file records build timestamps and may also depend on library/compression details. Verify row identity and the recorded scientific fingerprints before applying released row indices to a rebuilt file.
+
+These scripts expose the public-data ingestion and row-construction path; they do not turn this repository into a complete model-training archive. Raw spectra, trained models, checkpoints, and the full experiment code remain outside the repository scope.
 
 ## Verification
 
@@ -319,22 +357,26 @@ The verifier checks the released SHA-256 list, EMSLIBS allocations, quantificati
 }
 ```
 
-The checksum list covers immutable scientific artifacts, not `README.md`, `CITATION.cff`, or the verifier itself.
+The checksum list covers immutable scientific artifacts and the two SuperLIBS source-data reconstruction scripts, not `README.md`, `CITATION.cff`, or the verifier itself.
 
 ## Evidence boundary
 
 | Study | Main comparison | Evidence status |
 |---|---|---|
-| EMSLIBS 2019 classification | Represented-sample shot validation (`Ind-0`) versus sample-disjoint validation (`Ind-1`) against a fixed public benchmark. | Retrospective diagnostic evidence; benchmark access is `Epi-0`, while final `Ind` and `Inst` cannot be assigned from available metadata. |
+| EMSLIBS 2019 classification | Represented-sample shot validation (`Ind-0`) versus sample-disjoint validation (`Ind-1`) against a fixed public benchmark. | Retrospective diagnostic evidence; the published benchmark uses disjoint physical samples (`Ind-1`) and the retrospective analysis has `Epi-0` access. `Inst` remains unassigned from available metadata. |
 | NASA SuperLIBS quantification | Represented-target shot validation (`Ind-0`) versus target- and physical-family-disjoint validation (`Ind-3`). | Validation is `Epi-1`; frozen final cohorts are `Ind-3/Epi-3`. |
 | NASA SuperLIBS classification | Represented-sample shot validation (`Ind-0`) versus group-disjoint validation (`Ind-3`) for composition- and energy-defined populations. | Validation is `Epi-1`; frozen final cohorts are `Ind-3/Epi-3`. |
 
-The case studies are supportive, not exhaustive. No available dataset controlled every framework axis. Session/device metadata were insufficient to assign `Inst`, and gate delay and width were insufficiently reported to determine `Δdet`.
+The case studies are supportive, not exhaustive. No available dataset controlled every framework axis. Session/device metadata were insufficient to assign `Inst` in the analyzed comparisons, and the available metadata did not support a complete detection/spectral-response (`Delta_det`) assignment. Other DSM relations remain unassigned where cohort-level evidence is insufficient.
 
 The framework does not itself improve final model accuracy. It makes the supported claim explicit, improves comparison between studies, and supplies stable evaluation domains for future augmentation, preprocessing, calibration-transfer, uncertainty, and model-development work.
+
+## Version pinning
+
+For a manuscript or archived release, identify the exact repository state with a full Git commit SHA. A tagged/archived release DOI can additionally provide a persistent citation, but a branch name such as `main` is not an immutable version identifier. The split files also carry internal versions and cryptographic hashes; the full repository verifier checks the released scientific artifacts.
 
 ## Citation
 
 Please cite the accompanying manuscript:
 
-> Toni Aaltonen and Pekka Suominen. *Evaluation-Dependent Performance Claims in Machine-Learning LIBS: A Framework for Classification, Quantification, and Out-of-Distribution Evaluation*. Manuscript.
+> Toni Aaltonen and Pekka Suominen. *Evaluation-Dependent Performance Claims in Machine-Learning LIBS: A Reporting Framework*. Manuscript.

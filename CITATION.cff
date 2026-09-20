@@ -1,9 +1,10 @@
 cff-version: 1.2.0
 message: "Please cite the accompanying manuscript when using this repository."
-title: "Evaluation-Dependent Performance Claims in Machine-Learning LIBS: A Framework for Classification, Quantification, and Out-of-Distribution Evaluation"
+title: "Evaluation-Dependent Performance Claims in Machine-Learning LIBS: A Reporting Framework"
 type: dataset
 authors:
   - family-names: Aaltonen
     given-names: Toni
   - family-names: Suominen
     given-names: Pekka
+repository-code: "https://github.com/RoboAI-Green/libs-eval-framework"

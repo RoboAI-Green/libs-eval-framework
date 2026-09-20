@@ -1,6 +1,8 @@
 claim_id,factor,development_domain,selection_validation_domain,final_evaluation_domain,relation,quantitative_summary,statistical_unit,measurement_method,metadata_status
-,R_matrix,,,,,,,reference chemistry,
+,R_matrix,,,,,,,reference chemistry or prespecified composition grouping,
 ,Delta_conc,,,,,,,reference concentration per analyte,
-,Delta_opt,,,,,,,recorded excitation metadata,
-,Delta_det,,,,,,,recorded gate delay and gate width,
-,Delta_snr,,,,,,,defined signal-quality calculation,
+,Delta_prep,,,,,,,sample-state and preparation metadata,
+,Delta_env,,,,,,,"ambient gas/composition, pressure, and relevant environmental metadata",
+,Delta_opt,,,,,,,excitation and optical-geometry metadata,
+,Delta_det,,,,,,,detection and spectral-response metadata,
+,Delta_snr,,,,,,,defined SNR or signal-quality calculation,
